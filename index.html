@@ -1448,7 +1448,7 @@
                         <p class="intake-subtitle">Premium relocation concierge services</p>
                     </div>
 
-                    <form id="intakeForm" class="intake-form">
+                    <form id="intakeForm" class="intake-form" action="https://formspree.io/f/xyzjnvyv" method="POST">
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label" for="name">Name *</label>
@@ -1581,34 +1581,21 @@
         </div>
     </footer>
 
-    <script>
-        // Form submission handler
-        document.getElementById('intakeForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitBtn = this.querySelector('.btn-submit');
-            const btnText = submitBtn.querySelector('.btn-text');
-            const loadingSpinner = submitBtn.querySelector('.loading');
-            
-            // Show loading state
-            btnText.style.display = 'none';
-            loadingSpinner.style.display = 'flex';
-            submitBtn.disabled = true;
-            
-            // Simulate form submission
-            setTimeout(() => {
-                // Reset button state
-                btnText.style.display = 'block';
-                loadingSpinner.style.display = 'none';
-                submitBtn.disabled = false;
-                
-                // Show success message
-                alert('Thank you! We\'ll be in touch within 24 hours to discuss your relocation needs.');
-                
-                // Reset form
-                this.reset();
-            }, 2000);
-        });
-    </script>
+   <script>
+    // Form submission handler with Formspree
+    document.getElementById('intakeForm').addEventListener('submit', function(e) {
+        const submitBtn = this.querySelector('.btn-submit');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const loadingSpinner = submitBtn.querySelector('.loading');
+        
+        // Show loading state
+        btnText.style.display = 'none';
+        loadingSpinner.style.display = 'flex';
+        submitBtn.disabled = true;
+        
+        // Let the form submit naturally to Formspree
+        // The loading state will show until the page redirects
+    });
+</script>
 </body>
 </html>
