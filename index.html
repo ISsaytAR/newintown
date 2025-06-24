@@ -34,6 +34,57 @@
     }
     </script>
     
+    <script>
+        // Video background handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('backgroundVideo');
+            const fallbackImage = document.getElementById('fallbackImage');
+            
+            if (video) {
+                // Ensure video is muted for autoplay
+                video.muted = true;
+                
+                // Try to play the video
+                const playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        // Video started playing
+                        console.log('Video is playing');
+                        fallbackImage.style.display = 'none';
+                    }).catch(error => {
+                        // Video failed to play
+                        console.log('Video failed to play:', error);
+                        video.style.display = 'none';
+                        fallbackImage.style.display = 'block';
+                    });
+                }
+                
+                // Handle video errors
+                video.addEventListener('error', function(e) {
+                    console.log('Video error:', e);
+                    video.style.display = 'none';
+                    fallbackImage.style.display = 'block';
+                });
+                
+                // Ensure video plays on user interaction if autoplay fails
+                document.addEventListener('click', function() {
+                    if (video.paused) {
+                        video.play().catch(e => console.log('Manual play failed:', e));
+                    }
+                }, { once: true });
+            }
+        });
+        
+        // Scroll to form function
+        function scrollToForm(event) {
+            event.preventDefault();
+            document.getElementById('contact-form').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    </script>
+    
     <style>
         :root {
             --primary-black: #000000;
@@ -835,15 +886,12 @@
             loop 
             playsinline 
             autoplay
-            preload="auto"
+            preload="metadata"
             style="display: block;"
             poster="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2075&q=80"
             aria-label="Background video showing elegant moving and relocation services"
         >
-            <!-- Use the working path -->
             <source src="videos/hero-background.mp4" type="video/mp4">
-            <!-- Fallback for testing -->
-            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
         </video>
         <div class="video-overlay"></div>
     </div>
@@ -933,62 +981,4 @@
             </div>
         </section>
 
-        <!-- Process Section -->
-        <section class="section section-light">
-            <div class="container">
-                <div class="content-center">
-                    <p class="section-subtitle">Our Process</p>
-                    <h2 class="section-title">
-                        From kickoff to completion
-                    </h2>
-                    <p class="section-text">
-                        Our streamlined process keeps you informed while ensuring your relocation is handled in the most efficient way possible.
-                    </p>
-                </div>
-
-                <div class="process-steps">
-                    <div class="process-step">
-                        <div class="step-number">1</div>
-                        <h3 class="step-title">Consultation & Planning</h3>
-                        <p class="step-description">
-                            Share your relocation details and specific requirements through our comprehensive intake process. We listen to understand your unique vision.
-                        </p>
-                    </div>
-
-                    <div class="process-step">
-                        <div class="step-number">2</div>
-                        <h3 class="step-title">Custom Strategy</h3>
-                        <p class="step-description">
-                            Receive your personalized relocation roadmap tailored to your timeline, preferences, and specific requirements with detailed planning.
-                        </p>
-                    </div>
-
-                    <div class="process-step">
-                        <div class="step-number">3</div>
-                        <h3 class="step-title">Expert Execution</h3>
-                        <p class="step-description">
-                            Get connected to our handpicked network of trusted professionals who understand your standards and deliver exceptional service.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonial -->
-        <section class="testimonial-section">
-            <div class="container">
-                <div class="testimonial">
-                    <blockquote class="testimonial-quote">
-                        "I had the pleasure of working with Premium Relocation on my family's move and they did a truly exceptional job. Their attention to detail, professionalism, and care exceeded our expectations, making our transition seamless and stress-free."
-                    </blockquote>
-                    <div class="testimonial-author">Sarah Mitchell</div>
-                    <div class="testimonial-title">Executive Client</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Form Section -->
-        <section id="contact-form" class="form-section">
-            <div class="container">
-                <div class="form-container">
-                    <h2
+        <!-- Process Section
