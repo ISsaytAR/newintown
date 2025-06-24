@@ -119,38 +119,6 @@
             background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
         }
 
-        .video-controls {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-        }
-
-        .video-control-btn {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: var(--transition);
-        }
-
-        .video-control-btn:hover {
-            background: rgba(255,255,255,0.2);
-            border-color: rgba(255,255,255,0.4);
-        }
-
-        .video-control-btn:focus {
-            outline: 2px solid white;
-            outline-offset: 2px;
-        }
-
         /* Navigation Buttons */
         .nav-buttons {
             position: fixed;
@@ -825,11 +793,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .video-controls {
-                top: 10px;
-                right: 10px;
-            }
-
             .footer-content {
                 grid-template-columns: 1fr;
                 gap: 40px;
@@ -878,19 +841,10 @@
         >
             <source src="./videos/hero-background.mp4" type="video/mp4">
             <source src="./videos/hero-background.webm" type="video/webm">
+            <!-- Fallback for testing -->
             <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
         </video>
         <div class="video-overlay"></div>
-        
-        <div class="video-controls">
-            <button 
-                class="video-control-btn" 
-                id="videoToggle"
-                aria-label="Pause background video"
-            >
-                Pause Video
-            </button>
-        </div>
     </div>
 
     <!-- Navigation Buttons -->
@@ -1036,4 +990,4 @@
         <section id="contact-form" class="form-section">
             <div class="container">
                 <div class="form-container">
-                    <h2 
+                    <h2
