@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            z-index: 10;
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .play-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .status {
+            margin: 10px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video 
+            id="testVideo" 
+            muted 
+            loop 
+            playsinline
+            poster="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+        >
+            <source src="videos/hero-background.mp4" type="video/mp4">
+            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+        </video>
+    </div>
+    
+    <div class="overlay">
+        <h1>Video Test Page</h1>
+        <div id="status" class="status">Loading...</div>
+        <button class="play-btn" onclick="playVideo()">Play Video</button>
+        <button class="play-btn" onclick="checkVideo()">Check Status</button>
+        <div id="debug" style="font-size: 12px; margin-top: 10px;"></div>
+    </div>
+
+    <script>
+        const video = document.getElementById('testVideo');
+        const status = document.getElementById('status');
+        const debug = document.getElementById('debug');
+        
+        function updateStatus(message) {
+            status.textContent = message;
+            console.log(message);
+        }
+        
+        function updateDebug(message) {
+            debug.innerHTML += message + '<br>';
+            console.log(message);
+        }
+        
+        // Video event listeners
+        video.addEventListener('loadstart', () => updateDebug('Video: Load started'));
+        video.addEventListener('loadedmetadata', () => updateDebug('Video: Metadata loaded'));
+        video.addEventListener('loadeddata', () => updateDebug('Video: Data loaded'));
+        video.addEventListener('canplay', () => updateDebug('Video: Can play'));
+        video.addEventListener('canplaythrough', () => updateDebug('Video: Can play through'));
+        video.addEventListener('playing', () => updateStatus('Video is playing!'));
+        video.addEventListener('pause', () => updateStatus('Video paused'));
+        video.addEventListener('ended', () => updateStatus('Video ended'));
+        video.addEventListener('error', (e) => {
+            updateStatus('Video error: ' + e.type);
+            updateDebug('Error details: ' + JSON.stringify(e));
+        });
+        
+        // Try to play automatically
+        video.addEventListener('loadeddata', async () => {
+            try {
+                await video.play();
+                updateStatus('Autoplay successful!');
+            } catch (e) {
+                updateStatus('Autoplay blocked: ' + e.message);
+                updateDebug('Autoplay error: ' + e.message);
+            }
+        });
+        
+        async function playVideo() {
+            try {
+                await video.play();
+                updateStatus('Manual play successful!');
+            } catch (e) {
+                updateStatus('Manual play failed: ' + e.message);
+                updateDebug('Manual play error: ' + e.message);
+            }
+        }
+        
+        function checkVideo() {
+            updateDebug('Video currentSrc: ' + video.currentSrc);
+            updateDebug('Video readyState: ' + video.readyState);
+            updateDebug('Video networkState: ' + video.networkState);
+            updateDebug('Video paused: ' + video.paused);
+            updateDebug('Video ended: ' + video.ended);
+            updateDebug('Video duration: ' + video.duration);
+        }
+        
+        // Initial status
+        updateStatus('Page loaded, checking video...');
+    </script>
+</body>
+</html>
